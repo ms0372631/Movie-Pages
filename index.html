@@ -11,15 +11,24 @@
 <body>
 
   <div class="nav">
-    <img class="logo" src="/src/asset/create-tmdb-api-key.png" alt="">
-    <div class="title" id="movie-list">Movie List</div>
-    <div class="title" id="liked-list">Liked List</div>
+    <div class="nav-left">
+      <img class="logo" src="/src/asset/create-tmdb-api-key.png" alt="">
+      <div class="title" id="movie-list">Movie List</div>
+      <div class="title" id="liked-list">Liked List</div>
+    </div>
+    <div class="nav-right">
+      <a href="">Config</a>
+    </div>
   </div>
   <div class="content">
-    <div>The Most Popular Movies</div>
+    <div class="header">The Most Popular Movies</div>
     <div class="movie-table">
+      <div class="selector">
+        <button class="selector-btn">Prev</button>
+        <p class="selector-txt">Page 1 / Total 500 of 100000 results</p>
+        <button class="selector-btn">Next</button>
+      </div>
       <div class="movie-content">
-
       </div>
     </div>
   </div>
