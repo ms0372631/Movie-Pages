@@ -18,9 +18,18 @@ window.addEventListener("DOMContentLoaded", () => {
       movieContent.classList.add("movie-content");
       movieTable.appendChild(movieContent);
       data.results.forEach(element => {
-        console.log(element);
+        // console.log(element);
         map.set(element.original_title, element);
         const movie = document.createElement("div");
+        const likeBtn = document.createElement("a");
+        likeBtn.classList.add("like-btn");
+        const like = document.createTextNode("Like");
+        likeBtn.appendChild(like);
+        likeBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          likedList.push(element);
+        });
+        movie.appendChild(likeBtn);
         const image = document.createElement("img")
         const movieName = document.createElement("p");
         const movieDate = document.createElement("p");
@@ -37,8 +46,10 @@ window.addEventListener("DOMContentLoaded", () => {
         movieName.appendChild(nametxt);
         movieDate.appendChild(datetxt);
         movie.addEventListener("click", () => {
-        const modal = document.getElementsByClassName("modal")[0];
+          console.log(likedList);
+          const modal = document.getElementsByClassName("modal")[0];
           modal.style.visibility = "visible";
+          const movieTypes = document.getElementsByClassName("movie-types")[0];
           document.getElementsByClassName("modal-bg")[0].style.backgroundImage = `url("https://image.tmdb.org/t/p/original${element.backdrop_path}")`;
           document.getElementsByClassName("movie-poster")[0].src = `https://image.tmdb.org/t/p/original${element.poster_path}`;
           document.getElementsByClassName("movie-title")[0].appendChild(document.createTextNode(`${element.original_title}`));
@@ -47,6 +58,9 @@ window.addEventListener("DOMContentLoaded", () => {
         const closeTab = document.getElementsByClassName("modal-close")[0];
         closeTab.addEventListener("click", function() {
           document.getElementsByClassName("modal")[0].style.visibility = "hidden";
+          document.getElementsByClassName("movie-title")[0].removeChild(document.getElementsByClassName("movie-title")[0].lastChild);
+          document.getElementsByClassName("movie-description")[0].removeChild(document.getElementsByClassName("movie-description")[0].lastChild);
+
         });
       });
     })
