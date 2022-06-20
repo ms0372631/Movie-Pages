@@ -111,7 +111,35 @@ html {
 }
 
 .selector-btn {
-  padding: 5px;
+  padding: 1px;
+}
+
+#prev {
+  opacity: 0.3;
+}
+
+.modal {
+  display: flex;
+  position: fixed;
+  top: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 1;
+  background-color: aliceblue;
+  visibility: hidden;
+}
+
+.modal-bg {
+  margin: auto;
+  height: 500px;
+  width: 90%;
+  background-size: 100% 100%;
 }
 
 
+.black-cover {
+  height: 100%;
+  width: 100%;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.5);
+}
