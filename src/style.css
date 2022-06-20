@@ -23,7 +23,7 @@ html {
   margin: 0 10% 0 10%;
   height: 75px;
   width: 80vw;
-  border-bottom: 5px solid rgb(183, 177, 177);
+  border-bottom: 5px solid rgb(216, 212, 212);
 }
 
 .nav-left {
@@ -138,8 +138,46 @@ html {
 
 
 .black-cover {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   height: 100%;
   width: 100%;
   z-index: 2;
   background: rgba(0, 0, 0, 0.5);
+}
+
+.movie-poster {
+  height: 400px;
+  margin: 50px 5% 50px 5%;
+}
+
+.movie-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.movie-title {
+  color: white;
+  font-size: 20px;
+  margin: 15px;
+}
+
+.movie-description {
+  color: white;
+  margin: 15px;
+}
+
+.blank-space {
+  background-color: gray;
+  opacity: 0.9;
+  height: 100px;
+  width: 90%;
+  margin: 15px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10%;
+  right: 10%;
 }

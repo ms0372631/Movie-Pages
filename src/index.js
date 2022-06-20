@@ -18,7 +18,7 @@ window.addEventListener("DOMContentLoaded", () => {
       movieContent.classList.add("movie-content");
       movieTable.appendChild(movieContent);
       data.results.forEach(element => {
-        // console.log(element);
+        console.log(element);
         map.set(element.original_title, element);
         const movie = document.createElement("div");
         const image = document.createElement("img")
@@ -40,8 +40,14 @@ window.addEventListener("DOMContentLoaded", () => {
         const modal = document.getElementsByClassName("modal")[0];
           modal.style.visibility = "visible";
           document.getElementsByClassName("modal-bg")[0].style.backgroundImage = `url("https://image.tmdb.org/t/p/original${element.backdrop_path}")`;
-          document.getElementsByClassName("")
-        })
+          document.getElementsByClassName("movie-poster")[0].src = `https://image.tmdb.org/t/p/original${element.poster_path}`;
+          document.getElementsByClassName("movie-title")[0].appendChild(document.createTextNode(`${element.original_title}`));
+          document.getElementsByClassName("movie-description")[0].appendChild(document.createTextNode(`${element.overview}`));
+        });
+        const closeTab = document.getElementsByClassName("modal-close")[0];
+        closeTab.addEventListener("click", function() {
+          document.getElementsByClassName("modal")[0].style.visibility = "hidden";
+        });
       });
     })
     .catch(function (err) {
