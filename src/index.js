@@ -3,7 +3,7 @@ window.addEventListener("DOMContentLoaded", () => {
   let currentPage = 1;
   let popularMovieUrl = `https://api.themoviedb.org/3/movie/popular?api_key=5777966c56b415716d3ed40933493146&language=en-US&page=${currentPage}`;
   let likedList = [];
-
+  let map = new Map();
   function fetchMovies(url) { 
     fetch(url)
     .then(function (res) {
@@ -11,7 +11,6 @@ window.addEventListener("DOMContentLoaded", () => {
       return response;
     })
     .then(function (data) {
-      let map = new Map();
       const movieTable = document.getElementsByClassName("movie-table")[0];
       movieTable.removeChild(movieTable.lastChild);
       const movieContent = document.createElement("div");
@@ -19,15 +18,22 @@ window.addEventListener("DOMContentLoaded", () => {
       movieTable.appendChild(movieContent);
       data.results.forEach(element => {
         // console.log(element);
-        map.set(element.original_title, element);
         const movie = document.createElement("div");
         const likeBtn = document.createElement("a");
         likeBtn.classList.add("like-btn");
+        const likeContainer = document.createElement("p");
+        likeContainer.classList.add("like-container");
         const like = document.createTextNode("Like");
-        likeBtn.appendChild(like);
-        likeBtn.addEventListener("click", (e) => {
+        likeContainer.appendChild(like);
+        likeBtn.appendChild(likeContainer);
+        likeContainer.addEventListener("click", (e) => {
           e.stopPropagation();
-          likedList.push(element);
+          console.log(map.has(element.original_title))
+          console.log(map);
+          if (!map.has(element.original_title)) {
+            likedList.push(element);
+            map.set(element.original_title, element);
+          }
         });
         movie.appendChild(likeBtn);
         const image = document.createElement("img")
