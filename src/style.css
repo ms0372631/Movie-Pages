@@ -207,3 +207,19 @@ html {
   color: black;
 }
 
+.like-count {
+  position: relative;
+  left: 60px;
+  bottom: 25px;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background-color: red;
+  color: white;
+}
+
+.like-cnt {
+  margin-left: 5px;
+
+}
+

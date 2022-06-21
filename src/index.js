@@ -4,6 +4,12 @@ window.addEventListener("DOMContentLoaded", () => {
   let popularMovieUrl = `https://api.themoviedb.org/3/movie/popular?api_key=5777966c56b415716d3ed40933493146&language=en-US&page=${currentPage}`;
   let likedList = [];
   let map = new Map();
+  let likeCount = likedList.length;
+  const likeCnt = document.createElement("p");
+  likeCnt.classList.add("like-cnt");
+  const cnt = document.createTextNode(`${likeCount}`);
+  likeCnt.appendChild(cnt);
+  document.getElementsByClassName("like-count")[0].appendChild(likeCnt)
   function fetchMovies(url) { 
     fetch(url)
     .then(function (res) {
@@ -125,6 +131,7 @@ window.addEventListener("DOMContentLoaded", () => {
   const content = document.getElementsByClassName("content")[0];
   
   likedListBtn.addEventListener("click", () => {
+      document.getElementsByClassName("like-cnt")[0].innerText = `${likedList.length}`
       const movieTable = document.getElementsByClassName("movie-table")[0];
       movieTable.removeChild(document.getElementsByClassName("selector")[0]);
       movieTable.removeChild(movieTable.lastChild);
@@ -158,8 +165,6 @@ window.addEventListener("DOMContentLoaded", () => {
         movieName.appendChild(nametxt);
         movieDate.appendChild(datetxt);
       });
-
-      
   });
   movieListBtn.addEventListener("click", () => {
       location.reload();
