@@ -3,6 +3,7 @@ window.addEventListener("DOMContentLoaded", () => {
   let currentPage = 1;
   let popularMovieUrl = `https://api.themoviedb.org/3/movie/popular?api_key=5777966c56b415716d3ed40933493146&language=en-US&page=${currentPage}`;
   let likedList = [];
+
   let map = new Map();
   let likeCount = likedList.length;
   const likeCnt = document.createElement("p");
@@ -23,7 +24,7 @@ window.addEventListener("DOMContentLoaded", () => {
       movieContent.classList.add("movie-content");
       movieTable.appendChild(movieContent);
       data.results.forEach(element => {
-        // console.log(element);
+        console.log(element);
         const movie = document.createElement("div");
         const likeBtn = document.createElement("a");
         likeBtn.classList.add("like-btn");
@@ -34,12 +35,11 @@ window.addEventListener("DOMContentLoaded", () => {
         likeBtn.appendChild(likeContainer);
         likeContainer.addEventListener("click", (e) => {
           e.stopPropagation();
-          // console.log(map.has(element.original_title))
-          // console.log(map);
           if (!map.has(element.original_title)) {
             likedList.push(element);
             map.set(element.original_title, element);
           }
+          likeCnt.innerText = `${likedList.length}`
         });
         movie.appendChild(likeBtn);
         const image = document.createElement("img")
@@ -169,8 +169,5 @@ window.addEventListener("DOMContentLoaded", () => {
   movieListBtn.addEventListener("click", () => {
       location.reload();
   });
-
-
-  
 
 });
