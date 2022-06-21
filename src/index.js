@@ -28,8 +28,8 @@ window.addEventListener("DOMContentLoaded", () => {
         likeBtn.appendChild(likeContainer);
         likeContainer.addEventListener("click", (e) => {
           e.stopPropagation();
-          console.log(map.has(element.original_title))
-          console.log(map);
+          // console.log(map.has(element.original_title))
+          // console.log(map);
           if (!map.has(element.original_title)) {
             likedList.push(element);
             map.set(element.original_title, element);
@@ -99,6 +99,73 @@ window.addEventListener("DOMContentLoaded", () => {
       fetchMovies(popularMovieUrl);
     }
   })
+
+  const deepCopyFunction = (inObject) => {
+  let outObject, value, key
+
+  if (typeof inObject !== "object" || inObject === null) {
+    return inObject // Return the value if inObject is not an object
+  }
+
+  // Create an array or object to hold the values
+  outObject = Array.isArray(inObject) ? [] : {}
+
+  for (key in inObject) {
+    value = inObject[key]
+
+    // Recursively (deep) copy for nested objects, including arrays
+    outObject[key] = deepCopyFunction(value)
+  }
+
+  return outObject
+}
+
+  const likedListBtn = document.getElementById("liked-list");
+  const movieListBtn = document.getElementById("movie-list");
+  const content = document.getElementsByClassName("content")[0];
+  
+  likedListBtn.addEventListener("click", () => {
+      const movieTable = document.getElementsByClassName("movie-table")[0];
+      movieTable.removeChild(document.getElementsByClassName("selector")[0]);
+      movieTable.removeChild(movieTable.lastChild);
+      const movieContent = document.createElement("div");
+      movieContent.classList.add("movie-content");
+      movieTable.appendChild(movieContent);
+      document.getElementsByClassName("header")[0].innerText = "Liked List";
+      while (movieContent.firstChild)
+        movieContent.removeChild(movieContent.firstChild);
+      console.log(likedList);
+      likedList.forEach(el => {
+        const movie = document.createElement("div");
+        movieContent.appendChild(movie);
+        const image = document.createElement("img")
+        const movieName = document.createElement("p");
+        const movieDate = document.createElement("p");
+        image.src = `https://image.tmdb.org/t/p/original${el.poster_path}`
+        const nametxt = document.createTextNode(`${el.original_title}`)
+        const datetxt = document.createTextNode(`${el.release_date}`)
+        movie.classList.add("movie");
+        movieName.classList.add("movie-name");
+        movieDate.classList.add("movie-date");
+        movie.appendChild(image);
+        movie.appendChild(movieName);
+        movie.appendChild(movieDate);
+        movieContent.classList.add("movie-content");
+        const movieTable = document.getElementsByClassName("movie-table")[0];
+        movieTable.removeChild(movieTable.lastChild);
+        movieTable.appendChild(movieContent);
+        movieContent.appendChild(movie);
+        movieName.appendChild(nametxt);
+        movieDate.appendChild(datetxt);
+      });
+
+      
+  });
+  movieListBtn.addEventListener("click", () => {
+      location.reload();
+  });
+
+
   
 
 });
