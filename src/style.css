@@ -58,7 +58,19 @@ html {
   font-size: 25px;
 }
 
+.content-sub {
+  height: 80vw;
+  margin: 15px 10% 15px 10%;
+  font-size: 25px;
+  visibility: hidden;
+}
+
 .movie-content {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.movie-content-sub {
   display: flex;
   flex-wrap: wrap;
 }
@@ -70,6 +82,10 @@ html {
 }
 
 .header {
+  margin-bottom: 20px;
+}
+
+.header-sub {
   margin-bottom: 20px;
 }
 
@@ -223,3 +239,14 @@ html {
 
 }
 
+.company-image {
+  height: 50px;
+  width: auto;
+  margin-left: 10px;
+}
+
+.blank-space {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}

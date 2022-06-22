@@ -24,57 +24,87 @@ window.addEventListener("DOMContentLoaded", () => {
       movieContent.classList.add("movie-content");
       movieTable.appendChild(movieContent);
       data.results.forEach(element => {
-        console.log(element);
         const movie = document.createElement("div");
-        const likeBtn = document.createElement("a");
-        likeBtn.classList.add("like-btn");
-        const likeContainer = document.createElement("p");
-        likeContainer.classList.add("like-container");
-        const like = document.createTextNode("Like");
-        likeContainer.appendChild(like);
-        likeBtn.appendChild(likeContainer);
-        likeContainer.addEventListener("click", (e) => {
-          e.stopPropagation();
-          if (!map.has(element.original_title)) {
-            likedList.push(element);
-            map.set(element.original_title, element);
-          }
-          likeCnt.innerText = `${likedList.length}`
-        });
-        movie.appendChild(likeBtn);
-        const image = document.createElement("img")
-        const movieName = document.createElement("p");
-        const movieDate = document.createElement("p");
-        image.src = `https://image.tmdb.org/t/p/original${element.poster_path}`
-        const nametxt = document.createTextNode(`${element.original_title}`)
-        const datetxt = document.createTextNode(`${element.release_date}`)
-        movie.classList.add("movie");
-        movieName.classList.add("movie-name");
-        movieDate.classList.add("movie-date");
-        movie.appendChild(image);
-        movie.appendChild(movieName);
-        movie.appendChild(movieDate);
         movieContent.appendChild(movie);
-        movieName.appendChild(nametxt);
-        movieDate.appendChild(datetxt);
-        movie.addEventListener("click", () => {
-          console.log(likedList);
-          const modal = document.getElementsByClassName("modal")[0];
-          modal.style.visibility = "visible";
-          const movieTypes = document.getElementsByClassName("movie-types")[0];
-          document.getElementsByClassName("modal-bg")[0].style.backgroundImage = `url("https://image.tmdb.org/t/p/original${element.backdrop_path}")`;
-          document.getElementsByClassName("movie-poster")[0].src = `https://image.tmdb.org/t/p/original${element.poster_path}`;
-          document.getElementsByClassName("movie-title")[0].appendChild(document.createTextNode(`${element.original_title}`));
-          document.getElementsByClassName("movie-description")[0].appendChild(document.createTextNode(`${element.overview}`));
-        });
-        const closeTab = document.getElementsByClassName("modal-close")[0];
-        closeTab.addEventListener("click", function() {
-          document.getElementsByClassName("modal")[0].style.visibility = "hidden";
-          document.getElementsByClassName("movie-title")[0].removeChild(document.getElementsByClassName("movie-title")[0].lastChild);
-          document.getElementsByClassName("movie-description")[0].removeChild(document.getElementsByClassName("movie-description")[0].lastChild);
+        movie.classList.add("movie");
+        fetch(`https://api.themoviedb.org/3/movie/${element.id}?api_key=5777966c56b415716d3ed40933493146&language=en-US`)
+          .then(function (res) {
+            let response = res.json();
+            return response;
+          })
+          .then(function (element) {
+              console.log(element);
+              const likeBtn = document.createElement("a");
+              likeBtn.classList.add("like-btn");
+              const likeContainer = document.createElement("p");
+              likeContainer.classList.add("like-container");
+              const like = document.createTextNode("Like");
+              likeContainer.appendChild(like);
+              likeBtn.appendChild(likeContainer);
+              likeContainer.addEventListener("click", (e) => {
+                e.stopPropagation();
+                if (!map.has(element.original_title)) {
+                  likedList.push(element);
+                  map.set(element.original_title, element);
+                }
+                likeCnt.innerText = `${likedList.length}`
+              });
+              movie.appendChild(likeBtn);
+              const image = document.createElement("img")
+              const movieName = document.createElement("p");
+              const movieDate = document.createElement("p");
+              image.src = `https://image.tmdb.org/t/p/original${element.poster_path}`
+              const nametxt = document.createTextNode(`${element.original_title}`)
+              const datetxt = document.createTextNode(`${element.release_date}`)
+              movieName.classList.add("movie-name");
+              movieDate.classList.add("movie-date");
+              movie.appendChild(image);
+              movie.appendChild(movieName);
+              movie.appendChild(movieDate);
+              movieName.appendChild(nametxt);
+              movieDate.appendChild(datetxt);
+              movie.addEventListener("click", () => {
+                console.log(likedList);
+                const movieInfo = document.getElementsByClassName("movie-info")[0];
+                movieInfo.removeChild(document.getElementsByClassName("blank-space")[0]);
+                const blankSpace = document.createElement("div");
+                blankSpace.classList.add("blank-space");
+                movieInfo.appendChild(blankSpace);
+                element.production_companies.forEach(el => {
+                  fetch(`https://api.themoviedb.org/3/company/${el.id}/images?api_key=5777966c56b415716d3ed40933493146`)
+                    .then(function (res) {
+                      let response = res.json();
+                      return response;
+                    })
+                    .then(function (res) {
+                      console.log(res);
+                      const companyImage = document.createElement("img");
+                      companyImage.classList.add("company-image");
+                      if (res.logos.length)
+                      companyImage.src = `https://image.tmdb.org/t/p/original${res.logos[0].file_path}`
+                      blankSpace.appendChild(companyImage);
+                    });
+                })
+                const modal = document.getElementsByClassName("modal")[0];
+                modal.style.visibility = "visible";
+                const movieTypes = document.getElementsByClassName("movie-types")[0];
+                document.getElementsByClassName("modal-bg")[0].style.backgroundImage = `url("https://image.tmdb.org/t/p/original${element.backdrop_path}")`;
+                document.getElementsByClassName("movie-poster")[0].src = `https://image.tmdb.org/t/p/original${element.poster_path}`;
+                document.getElementsByClassName("movie-title")[0].appendChild(document.createTextNode(`${element.original_title}`));
+                document.getElementsByClassName("movie-description")[0].appendChild(document.createTextNode(`${element.overview}`));
+              });
+              const closeTab = document.getElementsByClassName("modal-close")[0];
+              closeTab.addEventListener("click", function() {
+                document.getElementsByClassName("modal")[0].style.visibility = "hidden";
+                document.getElementsByClassName("movie-title")[0].removeChild(document.getElementsByClassName("movie-title")[0].lastChild);
+                document.getElementsByClassName("movie-description")[0].removeChild(document.getElementsByClassName("movie-description")[0].lastChild);
+      
+              });
+            });
+          });
+    })
+    .then (function (data) {
 
-        });
-      });
     })
     .catch(function (err) {
       console.log(err);
@@ -128,23 +158,24 @@ window.addEventListener("DOMContentLoaded", () => {
 
   const likedListBtn = document.getElementById("liked-list");
   const movieListBtn = document.getElementById("movie-list");
-  const content = document.getElementsByClassName("content")[0];
+  const content = JSON.parse(JSON.stringify(document.getElementsByClassName("content")[0]));
   
   likedListBtn.addEventListener("click", () => {
       document.getElementsByClassName("like-cnt")[0].innerText = `${likedList.length}`
       const movieTable = document.getElementsByClassName("movie-table")[0];
       movieTable.removeChild(document.getElementsByClassName("selector")[0]);
+      if (movieTable.lastChild)
       movieTable.removeChild(movieTable.lastChild);
       const movieContent = document.createElement("div");
       movieContent.classList.add("movie-content");
       movieTable.appendChild(movieContent);
       document.getElementsByClassName("header")[0].innerText = "Liked List";
-      while (movieContent.firstChild)
-        movieContent.removeChild(movieContent.firstChild);
+      const movieContentSub = document.createElement("div");
+      movieContentSub.classList.add("movie-content-sub");
       console.log(likedList);
       likedList.forEach(el => {
         const movie = document.createElement("div");
-        movieContent.appendChild(movie);
+        movieContentSub.appendChild(movie);
         const image = document.createElement("img")
         const movieName = document.createElement("p");
         const movieDate = document.createElement("p");
@@ -160,8 +191,8 @@ window.addEventListener("DOMContentLoaded", () => {
         movieContent.classList.add("movie-content");
         const movieTable = document.getElementsByClassName("movie-table")[0];
         movieTable.removeChild(movieTable.lastChild);
-        movieTable.appendChild(movieContent);
-        movieContent.appendChild(movie);
+        movieTable.appendChild(movieContentSub);
+        movieContentSub.appendChild(movie);
         movieName.appendChild(nametxt);
         movieDate.appendChild(datetxt);
       });
