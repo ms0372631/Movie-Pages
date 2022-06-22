@@ -3,7 +3,7 @@ window.addEventListener("DOMContentLoaded", () => {
   let currentPage = 1;
   let popularMovieUrl = `https://api.themoviedb.org/3/movie/popular?api_key=5777966c56b415716d3ed40933493146&language=en-US&page=${currentPage}`;
   let likedList = [];
-
+  let genreMap = {"Crime": "red", "Mystery": "blue", "Thriller": "green", "Drama": "purple", "Horror": "orange", "Action": "indigo", "Adventure": "cyan", "Comedy": "peachPuff", "Family": "brown", "Fantasy": "green", "Science Fiction": "black", "Animation": "pink"};
   let map = new Map();
   let likeCount = likedList.length;
   const likeCnt = document.createElement("p");
@@ -53,7 +53,7 @@ window.addEventListener("DOMContentLoaded", () => {
               const image = document.createElement("img")
               const movieName = document.createElement("p");
               const movieDate = document.createElement("p");
-              image.src = `https://image.tmdb.org/t/p/original${element.poster_path}`
+              image.src = `https://image.tmdb.org/t/p/original${element.poster_path}`;
               const nametxt = document.createTextNode(`${element.original_title}`)
               const datetxt = document.createTextNode(`${element.release_date}`)
               movieName.classList.add("movie-name");
@@ -67,9 +67,25 @@ window.addEventListener("DOMContentLoaded", () => {
                 console.log(likedList);
                 const movieInfo = document.getElementsByClassName("movie-info")[0];
                 movieInfo.removeChild(document.getElementsByClassName("blank-space")[0]);
+                const movieTypes = document.createElement("div");
+                movieTypes.classList.add("movie-types");
+                movieInfo.appendChild(movieTypes);
+                element.genres.forEach(genre => {
+                  const tag =  document.createElement("span");
+                  tag.classList.add("tag");
+                  const txt = document.createElement("p");
+                  const tmp = document.createTextNode(`${genre.name}`);
+                  txt.appendChild(tmp);
+                  txt.classList.add("tag-txt");
+                  tag.style.backgroundColor = `${genreMap[genre.name]}`
+                  tag.appendChild(txt);
+                  console.log(`${genreMap[genre.name]}`)
+                  movieTypes.appendChild(tag);
+                });
                 const blankSpace = document.createElement("div");
                 blankSpace.classList.add("blank-space");
                 movieInfo.appendChild(blankSpace);
+                movieInfo.removeChild(document.getElementsByClassName("movie-types")[0]);
                 element.production_companies.forEach(el => {
                   fetch(`https://api.themoviedb.org/3/company/${el.id}/images?api_key=5777966c56b415716d3ed40933493146`)
                     .then(function (res) {
@@ -87,18 +103,15 @@ window.addEventListener("DOMContentLoaded", () => {
                 })
                 const modal = document.getElementsByClassName("modal")[0];
                 modal.style.visibility = "visible";
-                const movieTypes = document.getElementsByClassName("movie-types")[0];
                 document.getElementsByClassName("modal-bg")[0].style.backgroundImage = `url("https://image.tmdb.org/t/p/original${element.backdrop_path}")`;
                 document.getElementsByClassName("movie-poster")[0].src = `https://image.tmdb.org/t/p/original${element.poster_path}`;
-                document.getElementsByClassName("movie-title")[0].appendChild(document.createTextNode(`${element.original_title}`));
-                document.getElementsByClassName("movie-description")[0].appendChild(document.createTextNode(`${element.overview}`));
+                document.getElementsByClassName("movie-title")[0].innerText = `${element.original_title}`;
+                document.getElementsByClassName("movie-description")[0].innerText = `${element.overview}`;
               });
               const closeTab = document.getElementsByClassName("modal-close")[0];
               closeTab.addEventListener("click", function() {
                 document.getElementsByClassName("modal")[0].style.visibility = "hidden";
-                document.getElementsByClassName("movie-title")[0].removeChild(document.getElementsByClassName("movie-title")[0].lastChild);
                 document.getElementsByClassName("movie-description")[0].removeChild(document.getElementsByClassName("movie-description")[0].lastChild);
-      
               });
             });
           });

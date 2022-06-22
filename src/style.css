@@ -180,7 +180,7 @@ html {
 .movie-description {
   color: white;
   margin: 15px;
-  height: 50px;
+  height: 30px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -249,4 +249,30 @@ html {
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+
+.movie-types {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 15px;
+
+}
+
+.tag {
+  height: 20px;
+  width: 70px;
+  background-color: white;
+  padding: 3px;
+  margin: 5px;
+  border-radius: 10%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tag-txt {
+  color:white;
+  font-size: 15px;
 }
