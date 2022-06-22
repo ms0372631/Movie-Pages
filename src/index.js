@@ -33,7 +33,6 @@ window.addEventListener("DOMContentLoaded", () => {
             return response;
           })
           .then(function (element) {
-              console.log(element);
               const likeBtn = document.createElement("a");
               likeBtn.classList.add("like-btn");
               const likeContainer = document.createElement("p");
@@ -41,6 +40,7 @@ window.addEventListener("DOMContentLoaded", () => {
               const like = document.createTextNode("Like");
               likeContainer.appendChild(like);
               likeBtn.appendChild(likeContainer);
+              const configContainer = document.getElementsByClassName("config-container")[0];
               likeContainer.addEventListener("click", (e) => {
                 e.stopPropagation();
                 if (!map.has(element.original_title)) {
@@ -48,6 +48,10 @@ window.addEventListener("DOMContentLoaded", () => {
                   map.set(element.original_title, element);
                 }
                 likeCnt.innerText = `${likedList.length}`
+                const configItem = document.createElement("div");
+                configItem.classList.add("config-item");
+                configItem.innerText = `${element.original_title}`;
+                configContainer.appendChild(configItem);
               });
               movie.appendChild(likeBtn);
               const image = document.createElement("img")
@@ -171,7 +175,6 @@ window.addEventListener("DOMContentLoaded", () => {
 
   const likedListBtn = document.getElementById("liked-list");
   const movieListBtn = document.getElementById("movie-list");
-  const content = JSON.parse(JSON.stringify(document.getElementsByClassName("content")[0]));
   
   likedListBtn.addEventListener("click", () => {
       document.getElementsByClassName("like-cnt")[0].innerText = `${likedList.length}`
@@ -185,7 +188,6 @@ window.addEventListener("DOMContentLoaded", () => {
       document.getElementsByClassName("header")[0].innerText = "Liked List";
       const movieContentSub = document.createElement("div");
       movieContentSub.classList.add("movie-content-sub");
-      console.log(likedList);
       likedList.forEach(el => {
         const movie = document.createElement("div");
         movieContentSub.appendChild(movie);
@@ -214,4 +216,14 @@ window.addEventListener("DOMContentLoaded", () => {
       location.reload();
   });
 
+  const config = document.getElementsByClassName("config-btn")[0];
+  const configModal = document.getElementsByClassName("config")[0];
+  const configClose = document.getElementsByClassName("config-close")[0];
+  config.addEventListener("click", () => {
+    configModal.style.visibility = "visible";
+  });
+
+  configClose.addEventListener("click", () => {
+    configModal.style.visibility = "hidden";
+  })
 });
