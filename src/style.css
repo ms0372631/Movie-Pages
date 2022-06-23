@@ -316,4 +316,5 @@ html {
   margin: 5px;
   text-align: center;
   border-radius: 20px;
+  cursor: pointer;
 }

@@ -179,9 +179,9 @@ window.addEventListener("DOMContentLoaded", () => {
   likedListBtn.addEventListener("click", () => {
       document.getElementsByClassName("like-cnt")[0].innerText = `${likedList.length}`
       const movieTable = document.getElementsByClassName("movie-table")[0];
-      movieTable.removeChild(document.getElementsByClassName("selector")[0]);
+      document.getElementsByClassName("selector")[0].style.visibility = "hidden";
       if (movieTable.lastChild)
-      movieTable.removeChild(movieTable.lastChild);
+        movieTable.removeChild(movieTable.lastChild);
       const movieContent = document.createElement("div");
       movieContent.classList.add("movie-content");
       movieTable.appendChild(movieContent);
